@@ -55,7 +55,7 @@ func (objs Results) String() string {
 	return string(s)
 }
 
-func (objs Results) Flatten() map[string][]interface{} {
+func (objs Results) Flatten() Result {
 	r := make(map[string][]interface{})
 	for _, o := range objs {
 		if m, ok := o.(map[string]interface{}); ok {
@@ -63,6 +63,16 @@ func (objs Results) Flatten() map[string][]interface{} {
 				r[k] = append(r[k], m[k])
 			}
 		}
+	}
+	return Result(r)
+}
+
+type Result map[string][]interface{}
+
+func (r Result) Rename(strs ...string) Result {
+	for i := 0; i+1 < len(strs); i++ {
+		r[strs[i+1]] = r[strs[i]]
+		delete(r, strs[i])
 	}
 	return r
 }
