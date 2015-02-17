@@ -70,7 +70,7 @@ func (objs Results) Flatten() Result {
 type Result map[string][]interface{}
 
 func (r Result) Rename(strs ...string) Result {
-	for i := 0; i+1 < len(strs); i++ {
+	for i := 0; i+1 < len(strs); i += 2 {
 		r[strs[i+1]] = r[strs[i]]
 		delete(r, strs[i])
 	}
