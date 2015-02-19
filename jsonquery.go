@@ -3,12 +3,23 @@ package jsonquery
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
+
+	"github.com/CorgiMan/json2"
 )
 
 type Results []interface{}
 
 func From(v interface{}) Results {
+	bts, err := json2.Marshal(v)
+	if err != nil {
+		log.Println(err)
+	}
+	err = json.Unmarshal(bts, &v)
+	if err != nil {
+		log.Println(err)
+	}
 	return Results{v}
 }
 
